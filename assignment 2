@@ -1,0 +1,162 @@
+package driver;
+
+import java.util.Scanner;
+
+class Publication {
+    String title;
+    double price;
+    int copies;
+    static double totalPrice;
+    
+    void getData(Scanner sc) {
+        System.out.print("Enter PRICE : ");
+        price = sc.nextDouble();
+        System.out.print("Enter the Number of COPIES : ");
+        copies = sc.nextInt();
+    }
+
+    void saleCopy() {
+        System.out.println("Total Sell by the publication house: " + totalPrice);
+    }
+}
+
+class Book extends Publication {
+    String author;
+    double bookSell;
+    static double totalBookSell;
+    public int available = 100;
+
+    void getBookData(Scanner sc) {
+       sc.nextLine();  
+       System.out.print("Enter AUTHOR's NAME : ");
+       author = sc.nextLine();
+       System.out.print("Enter TITLE : ");
+       title = sc.nextLine();
+       getData(sc);
+    }
+
+    void restock() {
+        if (this.copies >available ) {
+        System.out.println("RESTOCK the values of book to 1000 and ENTER the values AGAIN");
+        available = available+ 1000;
+        } else {
+        available = available - this.copies;
+        }
+    }
+
+    void saleCopy() {
+        bookSell = (this.copies * this.price);
+        totalBookSell += bookSell;
+        Publication.totalPrice += bookSell;  
+        System.out.println("Ordered Book : " + this.title);
+        System.out.println("Total Amount : " + bookSell);
+    }
+
+    void totalBookSell() {
+        System.out.println("Total Book Sell : " + totalBookSell);
+    }
+}
+
+class Magazine extends Publication {
+    String author;
+    double magSell;
+    static double totalMagSell;
+    public int available = 100;
+
+    void getMagData(Scanner sc) {
+     System.out.print("Enter MAG AUTHOR's Name : "); 
+     author = sc.nextLine();
+     System.out.print("Enter TITLE : ");
+     title = sc.nextLine();
+     getData(sc);
+    }
+
+    void restock() {
+        if (this.copies > available) {
+        System.out.println("Restock the values of magazine to 1000 and enter the values again");
+        available += 1000;
+        } else {
+        available -= this.copies;
+        }
+    }
+
+    void saleCopy() {
+        magSell = (this.copies * this.price);
+        totalMagSell += magSell;
+        Publication.totalPrice += magSell;  
+        System.out.println("Ordered Magazine : " + this.title);
+        System.out.println("Total Amount : " + magSell);
+    }
+
+    void totalMagSell() {
+        System.out.println("Total Magazine Sell : " + totalMagSell);
+    }
+}
+
+public class driver {
+    public static void main(String[] args) {
+        Book b = new Book();
+        Magazine m = new Magazine();
+        Scanner sc = new Scanner(System.in);
+
+    while (true) {
+    System.out.println("Enter");
+    System.out.println("1. Order Book");
+    System.out.println("2. Order Magazine");
+    System.out.println("3. Total Book Sell");
+    System.out.println("4. Total Magazine Sell");
+    System.out.println("5. Total Publication Sell");
+    System.out.println("6. Exit");
+    System.out.print("Enter Your Choice : ");
+    int choice = sc.nextInt();
+    switch (choice) {
+    case 1:
+      System.out.println("enter the number of books:");
+      sc.nextLine();
+      int numbooks=sc.nextInt();
+      Book[] books= new Book[numbooks];
+      for(int i=0;i<books.length;i++) {
+    	  books[i]=new Book();
+      }
+      for (Book book : books) {
+      book.getBookData(sc);
+      book.restock();
+      book.saleCopy();
+      }
+    break;
+    case 2:
+    	System.out.println("enter the number of magazines:");
+    	sc.nextLine();
+        int nummag=sc.nextInt();
+        Magazine[] magazines= new Magazine[nummag];
+        for(int i=0;i<magazines.length;i++) {
+      	  magazines[i]=new Magazine();
+        }
+        for (Magazine mag : magazines) {
+        mag.getMagData(sc);
+        mag.restock();
+        mag.saleCopy();
+        }
+    break;
+    case 3:
+      b.totalBookSell();
+    break;
+    case 4:
+      m.totalMagSell();
+    break;
+    case 5:
+      b.totalBookSell();
+      m.totalMagSell();
+      System.out.println("Total Publication Sell: " + Publication.totalPrice);
+    break;
+    case 6:
+    	System.out.println("Exiting The Program");
+         System.exit(0);
+        default:
+         System.out.println("Please Enter Valid Input");
+      }
+    }       
+ }
+}
+
+ 
