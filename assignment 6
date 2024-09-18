@@ -1,0 +1,122 @@
+Exception handling 
+ Implement a program to handle Arithmetic exception, Array Index Out of Bounds. The user 
+enters two numbers Num1 and Num2. The division of Num1 and Num2 is displayed. If Num1 
+and Num2 are not integers, the program would throw a Number Format Exception. If Num2 
+were zero, the program would throw an Arithmetic Exception. Display the exception. 
+
+
+package Assignment6;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+class Array {
+    Scanner sc = new Scanner(System.in);
+    int size;
+    int arr[];
+
+    public void giveInput() {
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                System.out.print("Enter the size of the array: ");
+                this.size = sc.nextInt();
+                if (size < 0) {
+                    throw new IllegalArgumentException("Array size cannot be negative.");
+                }
+                if (size < 2) {
+                    throw new IllegalArgumentException("Array must have at least 2 elements for division.");
+                }
+                this.arr = new int[this.size];
+
+                for (int i = 0; i < size; i++) {
+                    System.out.print("Enter element " + i + ": ");
+                    this.arr[i] = sc.nextInt();
+                }
+                validInput = true; 
+            } catch (InputMismatchException e) {
+                System.out.println("InputMismatchException: Please enter valid integer values.");
+                sc.nextLine(); 
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void accessElement() {
+        try {
+            System.out.print("Enter the index of the element to be found: ");
+            int index = sc.nextInt();
+            System.out.println("Element at index " + index + " is: " + arr[index]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("ArrayIndexOutOfBoundsException: You are trying to access an invalid index. Please enter a valid index. Max value of size is " + size);
+        } catch (InputMismatchException e) {
+            System.out.println("InputMismatchException: Please enter a valid integer index.");
+            sc.nextLine(); 
+        }
+    }
+
+    public void division() {
+        try {
+            System.out.print("Enter the index of the element for number_1: ");
+            int index1 = sc.nextInt();
+            int num1 = arr[index1];
+            System.out.print("Enter the index of the element for number_2: ");
+            int index2 = sc.nextInt();
+            int num2 = arr[index2];
+
+            System.out.println("The first number is: " + num1);
+            System.out.println("The second number is: " + num2);
+            System.out.println("Division of " + num1 + " and " + num2 + " is: " + (num1 / num2));
+        } catch (ArithmeticException e) {
+            System.out.println("ArithmeticException: Cannot divide a number by zero. Please enter number_2 accordingly.");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("ArrayIndexOutOfBoundsException: You are trying to access an invalid index. Please enter a valid index. Max value of size is " + size);
+        } catch (InputMismatchException e) {
+            System.out.println("InputMismatchException: Please enter valid integer indices.");
+            sc.nextLine(); 
+        } finally {
+            System.out.println("Finally block executed");
+        }
+    }
+}
+
+public class Assignment6 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Array obj1 = new Array();
+
+        obj1.giveInput(); 
+
+        int choice = 0;
+        do {
+            try {
+                System.out.println("MENU");
+                System.out.println("Press 1. Access element in array ");
+                System.out.println("Press 2. Divide the numbers ");
+                System.out.println("Press 3. Exit code");
+                System.out.print("Enter your choice: ");
+                choice = sc.nextInt();
+
+                switch (choice) {
+                    case 1:
+                        obj1.accessElement();
+                        break;
+                    case 2:
+                        obj1.division();
+                        break;
+                    case 3:
+                        System.out.println("Code exited successfully.");
+                        break;
+                    default:
+                        System.out.println("Enter a valid choice.");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("InputMismatchException: Please enter a valid integer choice.");
+                sc.nextLine(); 
+            }
+        } while (choice != 3); 
+
+        sc.close(); 
+    }
+}
