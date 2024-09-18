@@ -1,0 +1,117 @@
+Dynamic Binding 
+Design a base class shape with two double type values and member functions to input the data 
+and compute_area() for calculating area of shape. Derive two classes: triangle and rectangle. 
+Make compute_area() as abstract function and redefine this function in the derived class to suit 
+their requirements. Write a program that accepts dimensions of triangle/rectangle and display 
+calculated area. Implement dynamic binding for given case study.
+
+
+package shapes;
+
+import java.util.Scanner;
+
+abstract class Shape {
+    double num1, num2;
+    
+void input() {
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Enter the first dimension: ");
+    num1 = sc.nextDouble();
+    System.out.println("Enter the second dimension : ");
+    num2 = sc.nextDouble();
+ }
+  abstract void compute_area();
+}
+
+class Triangle extends Shape {
+    void compute_area() {
+      double area = 0.5*num1*num2;
+      System.out.println("The area of the triangle is: " + area + " square units");
+  }
+}
+
+class Rectangle extends Shape {
+    void compute_area() {
+        double area = num1*num2;
+        System.out.println("The area of the rectangle is: " + area + " square units");
+    }
+}
+
+class Circle extends Shape {
+    void input() {
+      Scanner sc = new Scanner(System.in);
+      System.out.println("Enter the radius of the circle: ");
+      num1 = sc.nextDouble();
+      num2 = 0;  
+  }
+
+   void compute_area() {
+      double area = 3.14*num1*num1;
+      System.out.println("The area of the circle is: " + area + " square units");
+   }
+}
+
+class Eclipse extends Shape {
+   void input() {
+      Scanner sc = new Scanner(System.in);
+      System.out.println("Enter the major length of the eclipse: ");
+      num1 = sc.nextDouble();
+      System.out.println("Enter the minor length of the eclipse: ");
+      num2 = sc.nextDouble();
+        
+    }
+
+    void compute_area() {
+        double area = 3.14*num1*num1;
+        System.out.println("The area of the eclipse is: " + area + " square units");
+    }
+}
+
+public class driver {
+    public static void main(String[] args) {
+      Shape triangle = new Triangle();
+      Shape rectangle = new Rectangle();
+      Shape circle = new Circle();
+      Shape eclipse = new Eclipse();
+      Scanner sc = new Scanner(System.in);
+      int choice;
+
+     do{
+         System.out.println("    ");
+         System.out.println("Press 1 for TRIANGLE");
+         System.out.println("Press 2 for RECTANGLE");
+         System.out.println("Press 3 for CIRCLE");
+         System.out.println("Press 4 for ECLIPSE");
+         System.out.println("Press 5 to EXIT");
+         System.out.println("Enter your CHOICE:");
+         choice = sc.nextInt();
+
+  switch (choice) {
+  case 1:
+  triangle.input();
+  triangle.compute_area();
+  break;
+  case 2:
+  rectangle.input();
+  rectangle.compute_area();
+  break;
+  case 3:
+  circle.input();
+  circle.compute_area();
+  break;
+  case 4:
+  eclipse.input();
+  eclipse.compute_area();
+  break;
+  case 5:
+  System.out.println("Exiting the program");
+  break;
+  default:
+  System.out.println("Please enter a valid choice.");
+  break;
+ }
+} while (choice != 5); 
+
+  sc.close();  
+ }
+}
